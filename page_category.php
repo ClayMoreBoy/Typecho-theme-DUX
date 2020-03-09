@@ -1,6 +1,6 @@
 <?php
 /**
- * 标签云
+ * 分类存档
  *
  * @package custom
  */
@@ -23,13 +23,28 @@
             <header class="article-header">
                 <h1 class="article-title"><a href="<?php $this->permalink(); ?>"><?php $this->title() ?></a></h1>
             </header>
-            <article class="article-content" style="display:none"></article>
-            <div class="tag-clouds">
-<?php $this->widget('Widget_Metas_Tag_Cloud', 'ignoreZeroCount=1&limit=30')->to($tags); ?>
-<?php while($tags->next()): ?>
-                <a href="<?php $tags->permalink(); ?>"><?php $tags->name(); ?>（<?php $tags->count(); ?>）</a>
-<?php endwhile; ?>
-            </div>
-        </div>
+        <article class="article-content"></article>
+
+<?php 
+$obj = $this->widget('Widget_Metas_Category_List');
+if($obj->have()){
+	$output = '<article class="archives">';
+    while($obj->next()){
+		$output .= '<div class="item"><h3><a href="'.$obj->permalink.'"><font color="#F15A23">'.$obj->name.'</font></a></h3><ul class="archives-list">';
+        $this->widget('Widget_Archive@'.$obj->name, 'type=category', 'mid='.$obj->mid)->to($categoryPosts);
+        while ($categoryPosts->next()) {
+            $output .= '<li><a href="'.$categoryPosts->permalink .'">'. $categoryPosts->title .'</a> <span class="text-muted">'. $categoryPosts->commentsNum.'评论</span></li>';
+		}  
+		$output .= '</ul></div>';    
+    }
+    $output .= '</article>';
+    echo $output;
+}else{
+    echo '无分类';
+}
+?>
+
+<?php $this->need('comments.php'); ?>
     </div>
+</div>
 <?php $this->need('footer.php'); ?>

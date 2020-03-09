@@ -26,7 +26,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
             <div class="copyright">
                 <p>
                     &copy; <?php echo date("Y"); ?> <a href="<?php $this->options ->siteUrl(); ?>"><?php $this->options->title();?></a>
-                    <?php if($this->options->miitbeian): ?> | <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow"><?php $this->options->miitbeian(); ?></a><?php endif; ?>
+                    <?php if($this->options->miitbeian): ?> | <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow"><?php $this->options->miitbeian(); ?></a><?php endif; ?>
                     <br>
                     Powered by <a href="http://www.typecho.org/" target="_blank">Typecho</a> |
                     Theme <a href="https://github.com/hiCasper/Typecho-theme-DUX" target="_blank">DUX</a>
@@ -36,20 +36,19 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
         </div>
     </footer>
 <?php if ($this->options->useHighline == 'able'): ?>
-    <script src="//cdn.bootcss.com/highlight.js/9.9.0/highlight.min.js"></script>
+    <script src="//cdn.jsdelivr.net/highlight.js/9.11.0/highlight.min.js"></script>
 <?php endif; ?>
     <script>
-    window.jsui={
-        www: '<?php $this->options ->siteUrl(); ?>',
-        uri: '<?php echo rtrim($this->options ->themeUrl,"/");?>',
-        ver: '1.0',
-        roll: [<?php if (!empty($this->options->sitebar_fu)) {$text = $this->options->sitebar_fu;}
-        else{$text='1,2';} $sf_arr = explode(",", $text);foreach($sf_arr as $val){echo '"'.$val.'",';} //侧边栏第几个模块浮动 ?>],
-        ajaxpager: '0'
-    };
+        window.jsui={
+            www: '<?php $this->options ->siteUrl(); ?>',
+            uri: '<?php echo rtrim($this->options ->themeUrl,"/");?>',
+            ver: '1.0',
+            roll: [<?php if (!empty($this->options->sitebar_fu)) {$text = $this->options->sitebar_fu;} else{$text='1';} $sf_arr = explode(",", $text);foreach($sf_arr as $val){echo '"'.$val.'",';} //侧边栏第几个模块浮动 ?>],
+            ajaxpager: '<?php if ($this->options->infpage == 'disable'): ?>0<?php else: ?>1<?php endif; ?>'
+        };
     </script>
-    <script type='text/javascript' src='//cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js '></script>
-    <script type='text/javascript' src='<?php $this->options->themeUrl('js/loader.js '); ?>'></script>
+    <script type='text/javascript' src='//cdn.jsdelivr.net/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='<?php $this->options->themeUrl('js/loader.js'); ?>'></script>
     <!-- Analytics code -->
 <?php if($this->options->GoogleAnalytics): ?>
     <?php $this->options->GoogleAnalytics(); ?>

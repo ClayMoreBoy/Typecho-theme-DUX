@@ -23,8 +23,27 @@ function themeConfig($form) {
         'disable', _t('DNS预解析加速'), _t('默认禁止，启用则会对CDN资源和Gravatar进行加速'));
     $form->addInput($DnsPrefetch);
 
-    $fatext = new Typecho_Widget_Helper_Form_Element_Textarea('fatext', NULL, NULL, _t('顶部导航栏fa图标'), _t('顶部导航栏fa图标，&lt;i class="fa fa-plug"&gt;&lt;/i&gt; 格式一行一个<br>和导航条菜单项按顺序匹配,用法参见<a href="http://www.yeahzan.com/fa/facss.html" target="_blank">FA图标CSS分类参考</a>'));
+    $categorymenu = new Typecho_Widget_Helper_Form_Element_Radio('categorymenu',
+        array('able' => _t('折叠'),
+            'disable' => _t('展开'),
+        ),
+        'able', _t('折叠首页文章分类菜单'), _t(''));
+    $form->addInput($categorymenu);
+    
+
+    $fatext = new Typecho_Widget_Helper_Form_Element_Textarea('fatext', NULL, NULL, _t('顶部导航栏分类fa图标'), _t('顶部导航栏分类fa图标，&lt;i class="fa fa-plug"&gt;&lt;/i&gt; 格式一行一个<br>和导航条分类菜单项按顺序匹配,用法参见<a href="http://www.fontawesome.com.cn/faicons/" target="_blank">FA图标CSS分类参考</a>'));
     $form->addInput($fatext);
+
+    
+    $pagemenu = new Typecho_Widget_Helper_Form_Element_Radio('pagemenu',
+        array('able' => _t('折叠'),
+            'disable' => _t('展开'),
+        ),
+        'able', _t('折叠首页独立页面菜单'), _t(''));
+    $form->addInput($pagemenu);
+
+    $pagefatext = new Typecho_Widget_Helper_Form_Element_Textarea('pagefatext', NULL, NULL, _t('顶部导航栏独立页面fa图标'), _t('顶部导航栏独立页面fa图标，&lt;i class="fa fa-plug"&gt;&lt;/i&gt; 格式一行一个<br>和导航条独立页面项按顺序匹配,用法参见<a href="http://www.fontawesome.com.cn/faicons/" target="_blank">FA图标CSS分类参考</a>'));
+    $form->addInput($pagefatext);
 
     $tuijian = new Typecho_Widget_Helper_Form_Element_Text('tj_cid', NULL, NULL, _t('置顶展示'), _t('请输入要置顶展示文章的cid'));
     $form->addInput($tuijian);
@@ -37,7 +56,7 @@ function themeConfig($form) {
         array('able' => _t('启用'),
             'disable' => _t('禁止'),
         ),
-        'able', _t('首页文章缩略图'), _t('在文章首页显示缩略图'));
+        'able', _t('首页文章显示缩略图'), _t(''));
     $form->addInput($indexpic);
 
     //幻灯片
@@ -49,26 +68,41 @@ function themeConfig($form) {
         );
     $form->addInput($Slider);
 
-    $slidercode = new Typecho_Widget_Helper_Form_Element_Textarea('slidercode', NULL, NULL, _t('幻灯片代码'), _t('请按此格式填写，展示几个就填几行&lt;a href="你的链接"&gt; &lt;img src="图片链接" width="100%" /&gt;&lt;/a&gt;'));
+    $slidercode = new Typecho_Widget_Helper_Form_Element_Textarea('slidercode', NULL, NULL, _t('幻灯片代码'), _t('请按以下格式填写，展示几个就填几行<br>&lt;a href="你的链接"&gt; &lt;img src="图片链接" width="100%" /&gt;&lt;/a&gt;'));
     $form->addInput($slidercode);
-
+    
+    $infpage = new Typecho_Widget_Helper_Form_Element_Radio('infpage',
+        array('able' => _t('启用'),
+            'disable' => _t('禁止'),
+        ),
+        'disable', _t('首页文章无限加载'), _t(''));
+    $form->addInput($infpage);
 
     //侧边栏
     $sidebarBlock = new Typecho_Widget_Helper_Form_Element_Checkbox('sidebarBlock',
-    array('ShowRecentPosts' => _t('最新文章'),
-    'ShowCategory' => _t('推荐链接，广告位'),
-    'ShowRecentComments' => _t('最新评论'),
-    'ShowTags' => _t('标签云')),
-    array('ShowRecentPosts', 'ShowCategory', 'ShowRecentComments', 'ShowTags'), _t('侧边栏显示'));
+        array('ShowRecentPosts' => _t('最新文章'),
+            'ShowCategory' => _t('推荐链接，广告位'),
+            'ShowRecentComments' => _t('最新评论'),
+            'ShowTags' => _t('标签云')),
+            array('ShowRecentPosts', 'ShowCategory', 'ShowRecentComments', 'ShowTags'), _t('侧边栏显示')
+        );
     $form->addInput($sidebarBlock->multiMode());
+
     $sidebarAD = new Typecho_Widget_Helper_Form_Element_Textarea('sidebarAD', NULL, NULL, _t('侧边栏推荐位红色'), _t('请按固定格式填写，否则会造成错乱，可添加多个，第一行是广告的链接地址，第二行是广告标题，第三行是广告内容<br>例如:<br>http://themebetter.com/theme/dux<br>DUX主题 新一代主题<br>DUX Wordpress主题是大前端当前使用主题，是大前端积累多年Wordpress主题经验设计而成；更加扁平的风格和干净白色的架构会让网站显得内涵而出色...'));
     $form->addInput($sidebarAD);
+
+    
     $sitebar_fu = new Typecho_Widget_Helper_Form_Element_Text('sitebar_fu', NULL, NULL, _t('侧边栏浮动'), _t('请输入要浮动的侧边栏模块序号并使用英文逗号分隔，例如1,3 代表第1和第3块侧边栏会浮动'));
     $form->addInput($sitebar_fu);
 
+    $pagesidebar = new Typecho_Widget_Helper_Form_Element_Radio('pagesidebar',
+        array('able' => _t('启用'),
+            'disable' => _t('禁止'),
+        ),
+        'able', _t('独立页面左边导航栏'), _t('在独立页面左边显示导航栏'));
+    $form->addInput($pagesidebar);
+
     //社交
-    $friendlinks = new Typecho_Widget_Helper_Form_Element_Textarea('friendlinks', NULL, NULL, _t('单页友情链接'), _t('请参考http://blog.hicasper.com/post/64.html'));
-    $form->addInput($friendlinks);
 
     //图片
     $srcAddress = new Typecho_Widget_Helper_Form_Element_Text('src_add', NULL, NULL, _t('图片CDN替换前地址'), _t('即你的附件存放链接，一般为http://www.yourblog.com/usr/uploads/'));
@@ -101,7 +135,6 @@ function themeConfig($form) {
     $form->addInput($miitbeian);
     $GoogleAnalytics = new Typecho_Widget_Helper_Form_Element_Textarea('GoogleAnalytics', NULL, NULL, _t('统计代码'), _t('填写你的各种跟踪统计代码，相当于页尾代码'));
     $form->addInput($GoogleAnalytics);
-
 
 }
 
@@ -153,20 +186,19 @@ function get_post_view($archive) {
 
 
 /*Typecho 24小时发布文章数量*/
-function get_recent_posts_number($days = 1,$display = true)
-{
-$db = Typecho_Db::get();
-$today = time() + 3600 * 8;
-$daysago = $today - ($days * 24 * 60 * 60);
-$total_posts = $db->fetchObject($db->select(array('COUNT(cid)' => 'num'))
-->from('table.contents')
-->orWhere('created < ? AND created > ?', $today,$daysago)
-->where('type = ? AND status = ? AND password IS NULL', 'post', 'publish'))->num;
-if($display) {
-echo $total_posts;
-} else {
-return $total_posts;
-}
+function get_recent_posts_number($days = 1,$display = true){
+    $db = Typecho_Db::get();
+    $today = time() + 3600 * 8;
+    $daysago = $today - ($days * 24 * 60 * 60);
+    $total_posts = $db->fetchObject($db->select(array('COUNT(cid)' => 'num'))
+        ->from('table.contents')
+        ->orWhere('created < ? AND created > ?', $today,$daysago)
+        ->where('type = ? AND status = ? AND password IS NULL', 'post', 'publish'))->num;
+    if($display) {
+        echo $total_posts;
+    } else {
+        return $total_posts;
+    }
 }
 
 //缩略图调用
@@ -213,10 +245,10 @@ function hotpost() {
     }
     //return $tjids;
     $defaults = array(
-    'cid' => $tjids,
-    'before' => '',
-    'after' => '',
-    'xformat' => '<article class="excerpt-minic excerpt-minic-index"><h2><span class="red">【置顶】</span><a href="{permalink}" title="{title}">{title}</a></h2><p class="note">{content}...</p></article>'
+        'cid' => $tjids,
+        'before' => '',
+        'after' => '',
+        'xformat' => '<article class="excerpt-minic excerpt-minic-index"><h2><span class="red">【置顶】</span><a href="{permalink}" title="{title}">{title}</a></h2><p class="note">{content}...</p></article>'
     );
     $db = Typecho_Db::get();
 
@@ -228,11 +260,11 @@ function hotpost() {
     $result = $db->fetchAll($sql);
     echo $defaults['before'];
     foreach($result as $val){
-    $val = Typecho_Widget::widget('Widget_Abstract_Contents')->filter($val);
-    echo str_replace(array('{permalink}', '{title}','{content}'),array($val['permalink'], $val['title'],substr($val['text'],0,250)), $defaults['xformat']);
+        $val = Typecho_Widget::widget('Widget_Abstract_Contents')->filter($val);
+        echo str_replace(array('{permalink}', '{title}','{content}'),array($val['permalink'], $val['title'],substr($val['text'],0,250)), $defaults['xformat']);
     }
     echo $defaults['after'];
-    }
+}
 
 //幻灯片输出
 function slout() {
@@ -240,8 +272,8 @@ function slout() {
     if (!empty($options->slidercode)) {
         $text = $options->slidercode;
     }else{
-        $text='<a target="_blank" href="https://github.com/hiCasper/Typecho-theme-DUX"><img src="http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg"></a>
-        <a target="_blank" href="https://github.com/hiCasper/Typecho-theme-DUX"><img src="http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg"></a>';
+        $text='<a target="_blank" href="https://github.com/hiCasper/Typecho-theme-DUX"><img src="'. $options->themeUrl .'/img/banner.png"></a>
+               <a target="_blank" href="https://github.com/hiCasper/Typecho-theme-DUX"><img src="'. $options->themeUrl .'/img/banner.png"></a>';
     }
     $t_arr = explode('
 ', $text);
@@ -257,16 +289,30 @@ function slout() {
 }
 
 //导航fa图标
-function fa_ico() {
+function fa_ico($type, $num) {
     $options = Typecho_Widget::widget('Widget_Options');
-    if (!empty($options->fatext)) {
-        $text = $options->fatext;
-    }else{
-        $text="<i class=\"fa fa-plug\"></i>\n<i class=\"fa fa-tablet\"></i>\n<i class=\"fa fa-book\"></i>";
+    if ($type == 1) {
+        if (!empty($options->fatext)) {
+            $text = $options->fatext;
+            $fa_arr = explode("\n", $text);
+            return $fa_arr[$num];
+        }
+        else {
+            $text='';
+            return $text;
+        }
     }
-    $b_arr = explode("\n", $text);
-
-    return $b_arr;
+    else {
+        if (!empty($options->pagefatext)) {
+            $text = $options->pagefatext;
+            $fa_arr = explode("\n", $text);
+            return $fa_arr[$num];
+        }
+        else {
+            $text='';
+            return $text;
+        }
+    }
 }
 
 //侧边栏推荐位
@@ -278,10 +324,7 @@ function sitebar_ad($obj) {
         $text="https://github.com/hiCasper/Typecho-theme-DUX\nDUX主题 新一代主题\nDUX for Typecho";
     }
     $b_arr = explode("\n", $text);
-
     return $b_arr;
 }
-
-
 
 ?>
